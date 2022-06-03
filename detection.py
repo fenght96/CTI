@@ -130,7 +130,7 @@ def main(args):
                                 momentum=0.9, weight_decay=1e-5)
 
     # Define the scheduler
-    train_mb_size = 8#8
+    train_mb_size = 6#8
     epoch = 6#6
 
     # When using LinearLR, the LR will start from optimizer.lr / start_factor
