@@ -111,7 +111,7 @@ def main(args):
     # --- MODEL CREATION
     # Load a model pre-trained on COCO
     
-    model = fasterrcnn_resnet50_fpn(pretrained=True, trainable_backbone_layers=4,device=device,loss_fn = None,min_size=608,#640 0.6478 800 0.7982 900 
+    model = fasterrcnn_resnet50_fpn(pretrained=True, trainable_backbone_layers=4,device=device,loss_fn = None,min_size=580,#640 0.6478 800 0.7982 900 
         max_size=1333,) # 0.7982
             #image_mean=[0.40917876, 0.36510953, 0.33419088],image_std=[0.20333265, 0.20289227, 0.20298935])# < default 
 
