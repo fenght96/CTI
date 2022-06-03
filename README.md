@@ -1,10 +1,10 @@
 The recommended setup steps are as follows:
 
-1. **Install [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)** (and [mamba](https://github.com/mamba-org/mamba); recommended)
+1. **Install [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)** 
 
 2. **create the conda environment**:
 ```bash
-cd clvision-challenge-2022
+cd CTI
 conda env create -f environment.yml
 ```
 
