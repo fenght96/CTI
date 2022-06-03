@@ -57,7 +57,7 @@ import warnings
 warnings.filterwarnings("ignore")
 import pdb
 # TODO: change this to the path where you downloaded (and extracted) the dataset
-DATASET_PATH = ''
+DATASET_PATH = '/root/autodl-tmp/'
 
 # This sets the root logger to write to stdout (your console).
 # Customize the logging level as you wish.
@@ -103,15 +103,15 @@ def main(args):
         train_transform=train_transform,
         eval_transform=eval_transform,
         n_validation_videos=0,
-        # train_json_name= 'split_ego_train.json',
-        # test_json_name= 'split_ego_train.json',
+#         train_json_name= 'ego_objects_demo_train.json',
+#         test_json_name= 'ego_objects_demo_train.json',
     )
     # ---------
 
     # --- MODEL CREATION
     # Load a model pre-trained on COCO
     
-    model = fasterrcnn_resnet50_fpn(pretrained=True, trainable_backbone_layers=4,device=device,loss_fn = None,min_size=800,#640 0.6478 800 0.7982 900 
+    model = fasterrcnn_resnet50_fpn(pretrained=True, trainable_backbone_layers=4,device=device,loss_fn = None,min_size=640,#640 0.6478 800 0.7982 900 
         max_size=1333,) # 0.7982
             #image_mean=[0.40917876, 0.36510953, 0.33419088],image_std=[0.20333265, 0.20289227, 0.20298935])# < default 
 
@@ -126,7 +126,7 @@ def main(args):
 
     # Create the optimizer
     params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.SGD(params, lr=0.01,
+    optimizer = torch.optim.SGD(params, lr=0.02,
                                 momentum=0.9, weight_decay=1e-5)
 
     # Define the scheduler
@@ -162,7 +162,7 @@ def main(args):
     # object detection tutorial, in the train_one_epoch function, step() is
     # called after each iteration. In addition, the scheduler is only used in
     # the very first epoch. The same setup is here replicated.
-    replay = ReplayDetPlugin(mem_size=3500)
+    replay = ReplayDetPlugin(mem_size=5000)
     
     # save_checkpoint = ModelCheckpoint(out_folder='./category_detection_results_base', file_prefix='track3_output')
     mandatory_plugins = [replay, ]
@@ -240,7 +240,7 @@ def main(args):
         print("Start of experience: ", current_experience_id)
         
         data_loader_arguments = dict(
-            num_workers=10,
+            num_workers=16,
             persistent_workers=True
         )
         cl_strategy.train(
@@ -248,7 +248,7 @@ def main(args):
             # eval_streams=[benchmark.valid_stream[current_experience_id]],
             **data_loader_arguments)
         print("Training completed")
-        cl_strategy.eval(benchmark.test_stream, num_workers=10)
+        cl_strategy.eval(benchmark.test_stream, num_workers=16)
         # name_str = f'track3_exp{current_experience_id}.pth'
         # torch.save(cl_strategy.model.state_dict(), os.path.join(save_folder,name_str))
 
